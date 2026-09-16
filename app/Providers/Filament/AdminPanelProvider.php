@@ -54,8 +54,10 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
                 'auth',
                 sprintf('role:%s|%s',
-                RolesEnum::Admin->value,
-                RolesEnum::Vendor->value)
+                  RolesEnum::Admin->value,
+                  RolesEnum::Vendor->value,
+                  )
+                
             ])
             ->authMiddleware([
                 Authenticate::class,
