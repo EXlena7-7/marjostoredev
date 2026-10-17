@@ -53,6 +53,7 @@ class CategoriesRelationManager extends RelationManager
                 ->sortable()
                 ->searchable(),
                 IconColumn::make('active')
+                    ->boolean()
             ])
             ->headerActions([
              Tables\Actions\CreateAction::make(), 
