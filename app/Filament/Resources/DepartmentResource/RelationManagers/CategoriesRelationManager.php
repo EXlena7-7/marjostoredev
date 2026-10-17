@@ -54,6 +54,9 @@ class CategoriesRelationManager extends RelationManager
                 ->searchable(),
                 IconColumn::make('active')
             ])
+            ->headerActions([
+             Tables\Actions\CreateAction::make(), 
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

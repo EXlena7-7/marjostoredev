@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse|\Inertia\Response
     {
         $request->authenticate();
 
@@ -36,11 +36,11 @@ class AuthenticatedSessionController extends Controller
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        $router= "/";
+        $route= "/";
 
-        if ($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
-            return Inertia::location('/admin');
-        } else if($user->hasRole(RolesEnum::User)) {
+        if($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
+            return Inertia::location(route('filament.admin.pages.dashboard'));
+        } else {
             $route = route('dashboard', absolute: false);
         }
 

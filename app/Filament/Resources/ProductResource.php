@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\ProductStatusEnum;
 use App\Filament\Resources\ProductResource\Pages;
+// use App\Filament\Resource\ProductResource\Pages\EditProduct;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
@@ -127,4 +128,13 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
+
+    // public static function getRecordSubNavigation(Page $page)
+    // {
+    //     return [
+    //         $page->generateNavigationItems([
+    //             EditProduct::class
+    //         ])
+    //         ];
+    // }
 }
