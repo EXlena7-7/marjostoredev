@@ -10,11 +10,11 @@ class CreateProduct extends CreateRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected function mutateFormDataBeforeCreate(array $data)
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['created_by'] = auth()->id();
         $data['updated_by'] = auth()->id();
-        return parent::mutateFormDataBeforeCreate($data);
+        return $data;
     }
     
 }
