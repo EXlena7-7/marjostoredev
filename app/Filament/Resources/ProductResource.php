@@ -3,10 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ProductStatusEnum;
+use App\Enums\RolesEnum;
 use App\Filament\Resources\ProductResource\Pages;
 // use App\Filament\Resource\ProductResource\Pages\EditProduct;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +25,7 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    # protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
     public static function form(Form $form): Form
     {
         return $form
@@ -98,13 +100,23 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->words(10)
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->colors(ProductStatusEnum::colors()),
+                Tables\Columns\TextColumn::make('department.name'),
+                Tables\Columns\TextColumn::make('category.name'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -127,6 +139,13 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        $user = Filament::auth()->user();
+
+        return $user && $user->hasRole(RolesEnum::Vendor);
     }
 
     // public static function getRecordSubNavigation(Page $page)
